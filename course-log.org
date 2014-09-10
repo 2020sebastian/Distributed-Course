@@ -1,0 +1,44 @@
+NAME: *TODO* 
+
+* Instructions
+
+This file contains your log consisting of notes and experiments conducted during the course.  You must make entries this file each
+week.
+
+This file must be completed using org-mode syntax.  You can edit in org-mode using the Emacs text
+editor.  The org-mode manual can be found online, but it might be easier to read something like:
+
+  http://www.linuxjournal.com/article/9116
+  http://sachachua.com/blog/2008/01/outlining-your-notes-with-org/
+  https://github.com/novoid/org-mode-workshop/blob/master/featureshow/org-mode-teaser.org
+
+* Week 01 (2014-09-11 to 2014-09-17)
+
+** tasks
+
+- [ ] installed virtualbox
+- [ ] created Ubuntu VM
+- [ ] installed software within Ubuntu VM
+- [ ] completed Emacs tutorial
+- [ ] browsed http://orgmode.org/guide/index.html
+- [ ] watched http://jaderholm.com/screencasts.html
+- [ ] created an org-mode document
+- [ ] ran SBT and the csp.net.ServerDemoIO
+- [ ] *optional* watched http://orgmode.org/talks.html
+- [ ] read about org-mode checkboxes :-)
+
+* Week 02 (2014-09-18 to 2014-09-23)
+* Week 03 (2014-09-25 to 2014-09-30)
+* Week 04 (2014-10-02 to 2014-10-07)
+* Week 05 (2014-10-09 to 2014-10-14)
+* Week 06 (2014-10-16 to 2014-10-21) (Midterm Exam)
+* Week 07 (2014-10-23 to 2014-10-28)
+* Week 08 (2014-10-30 to 2014-11-04)
+* Week 09 (2014-11-06 to 2014-11-11)
+* Week 10 (2014-11-13 to 2014-11-18)
+* Local Variables
+
+Local Variables:
+mode: org
+fill-column: 100
+End:
