@@ -13,19 +13,19 @@ editor.  The org-mode manual can be found online, but it might be easier to read
   https://github.com/novoid/org-mode-workshop/blob/master/featureshow/org-mode-teaser.org
 
 * Week 01 (2014-09-11 to 2014-09-17)
-
+ 
 ** tasks
 
-- [ ] installed virtualbox
-- [ ] created Ubuntu VM
-- [ ] installed software within Ubuntu VM
-- [ ] completed Emacs tutorial
-- [ ] browsed http://orgmode.org/guide/index.html
-- [ ] watched http://jaderholm.com/screencasts.html
-- [ ] created an org-mode document
-- [ ] ran SBT and the csp.net.ServerDemoIO
-- [ ] *optional* watched http://orgmode.org/talks.html
-- [ ] read about org-mode checkboxes :-)
+- [X] Installed Virtualbox
+- [X] created Ubuntu VM
+- [X] installed software within Ubuntu VM
+- [X] completed Emacs tutorial
+- [X] browsed http://orgmode.org/guide/index.html
+- [X] watched http://jaderholm.com/screencasts.html
+- [X] created an org-mode document
+- [X] ran SBT and the csp.net.ServerDemoIO
+- [X] *optional* watched http://orgmode.org/talks.html
+- [X] read about org-mode checkboxes :-)
 
 * Week 02 (2014-09-18 to 2014-09-23)
 * Week 03 (2014-09-25 to 2014-09-30)
