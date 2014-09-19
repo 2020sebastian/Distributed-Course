@@ -14,6 +14,7 @@ editor.  The org-mode manual can be found online, but it might be easier to read
 
 * Week 01 (2014-09-11 to 2014-09-17)
  
+
 ** tasks
 
 - [X] Installed Virtualbox
@@ -26,6 +27,12 @@ editor.  The org-mode manual can be found online, but it might be easier to read
 - [X] ran SBT and the csp.net.ServerDemoIO
 - [X] *optional* watched http://orgmode.org/talks.html
 - [X] read about org-mode checkboxes :-)
+
+** experiments
+- [X] Tried to install vim org-mode plugin but failed :)
+- [X] Executed and tried to memorize all commands shown in class
+- [X] Install virtualbox-guest-dkms package which allows me to resize the ubuntu
+      screen as well as the resolution inside virtualbox.
 
 * Week 02 (2014-09-18 to 2014-09-23)
 * Week 03 (2014-09-25 to 2014-09-30)
