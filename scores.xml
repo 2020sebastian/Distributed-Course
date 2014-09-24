@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<grading>
+  <firstName>Sebastian</firstName>
+  <lastName>Demian</lastName>
+  <courseLogs>
+    <week01 score="1.5">sorry to hear about vim plugin problems :-/ please add name to course-log.org</week01>
+    <week02 score=""/>
+    <week03 score=""/>
+    <week04 score=""/>
+    <week05 score=""/>
+    <week06 score=""/>
+    <week07 score=""/>
+    <week08 score=""/>
+    <week09 score=""/>
+    <week10 score=""/>
+  </courseLogs>
+  <homework>
+    <assignment score="10" name="HW1"/>
+    <assignment score="" name="HW2"/>
+    <assignment score="" name="HW3"/>
+    <assignment score="" name="HW4"/>
+    <assignment score="" name="HW5"/>
+    <assignment score="" name="HW6"/>
+    <assignment score="" name="HW7"/>
+  </homework>
+</grading>
