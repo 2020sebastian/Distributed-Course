@@ -3,24 +3,24 @@
   <firstName>Sebastian</firstName>
   <lastName>Demian</lastName>
   <courseLogs>
-    <week01 score="1.5">sorry to hear about vim plugin problems :-/ please add name to course-log.org</week01>
-    <week02 score=""/>
-    <week03 score=""/>
-    <week04 score=""/>
-    <week05 score=""/>
-    <week06 score=""/>
-    <week07 score=""/>
-    <week08 score=""/>
-    <week09 score=""/>
-    <week10 score=""/>
+    <week score="1.5" max="1.5" name="WK01">sorry to hear about vim plugin problems :-/ please add name to course-log.org</week>
+    <week score="" max="1.5" name="WK02"/>
+    <week score="" max="1.5" name="WK03"/>
+    <week score="" max="1.5" name="WK04"/>
+    <week score="" max="1.5" name="WK05"/>
+    <week score="" max="1.5" name="WK06"/>
+    <week score="" max="1.5" name="WK07"/>
+    <week score="" max="1.5" name="WK08"/>
+    <week score="" max="1.5" name="WK09"/>
+    <week score="" max="1.5" name="WK10"/>
   </courseLogs>
   <homework>
-    <assignment score="10" name="HW1"/>
-    <assignment score="" name="HW2"/>
-    <assignment score="" name="HW3"/>
-    <assignment score="" name="HW4"/>
-    <assignment score="" name="HW5"/>
-    <assignment score="" name="HW6"/>
-    <assignment score="" name="HW7"/>
+    <assignment score="10" max="10" name="HW1"/>
+    <assignment score="" max="10" name="HW2"/>
+    <assignment score="" max="10" name="HW3"/>
+    <assignment score="" max="10" name="HW4"/>
+    <assignment score="" max="10" name="HW5"/>
+    <assignment score="" max="10" name="HW6"/>
+    <assignment score="" max="10" name="HW7"/>
   </homework>
 </grading>
