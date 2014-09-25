@@ -1,0 +1,124 @@
+Don't edit this file please!
+
+* Homework 1 - due 2014-09-18 by 11:59PM
+
+Complete the tasks listed in course-log.org under week 1.
+
+* Homework 2 - due 2014-09-30 by 11:59PM
+
+1. Complete the course-log.org entries for weeks 2 and 3.  This must include copying and pasting the following 
+   checklists into course-log.org, then checking the boxes to indicate you have done each one.  You must also include
+   any other reading, experiments, or new things that you have learned about distributed systems (or Linux in general).
+   (It is very helpful for me to know what is useful to you!).
+
+   *REMINDER*: Please put your journal entries inside course-log.org under the appropriate week.  My workflow is to run 
+   script/macro to open each course-log.org file in turn and open the "Week <n>" tab.  I won't go hunting elsewhere.
+
+   Week 2
+
+   - [ ] read http://www.joelonsoftware.com/articles/Unicode.html
+   - [ ] read Textbook chapter: Streams
+   - [ ] read Textbook chapter: Looking Up Internet Addresses
+   - [ ] read Textbook chapter: Sockets for Clients
+   - [ ] read Textbook chapter: Sockets for Servers
+
+   Week 3
+
+   - [ ] read Textbook chapter: Threads
+   - [ ] ran all code in week 2 class lectures with netcat / socat (as appropriate)
+
+2. Complete the following programs and test them out.  
+
+   If you are reading this in Emacs:
+
+   - Move the cursor over each line beginning with "**" and press TAB to unfold / fold.
+
+   - Move the cursor over the underlined filepath, then press C-c C-o to open the file.
+     Press C-x 0 to close that new window again.
+
+** [[./src/main/scala/csp/io/Concat.scala]]
+
+This program concatenates all of the files except the last one listed on the command line.  The output goes to the last file
+specified on the command line.
+
+#+BEGIN_EXAMPLE
+$ echo hello > file1
+
+$ echo world > file2
+
+$ echo a bit more > file3
+
+$ ./target/start csp.io.Concat file1 file2 file3 file4
+
+$ ls -lh file[1234]
+-rw-rw-r-- 1 cpitcher cpitcher  6 Sep 25 10:01 file1
+-rw-rw-r-- 1 cpitcher cpitcher  6 Sep 25 10:01 file2
+-rw-rw-r-- 1 cpitcher cpitcher 11 Sep 25 10:01 file3
+-rw-rw-r-- 1 cpitcher cpitcher 23 Sep 25 10:01 file4
+
+$ cat file4
+hello
+world
+a bit more
+#+END_EXAMPLE
+
+If it helps, this behaves just like:
+#+BEGIN_EXAMPLE
+$ cat file1 file2 file3 >file4
+#+END_EXAMPLE
+
+** [[./src/main/scala/csp/net/PoliteChatServer.scala]]
+
+This program is a chat server.  That is, a client connects to the server, then you can type into the client or server terminal
+windows, and the output will be transmitted to the other side.  The server is polite in the sense that it prints a prompt and
+reads one line from the server's terminal, then sends the line over the network to the client, along with a prompt for the client
+to respond to; the server then awaits one line of input from the network (data is assumed to be encoded in US-ASCII, and a line is
+delimited by the newline "\n" character), and prints it out on the server's terminal.  It then repeats until end of file is read
+from the network or the server terminal.
+
+Sample run in server terminal:
+#+BEGIN_EXAMPLE
+$ ./target/start csp.net.PoliteChatServer
+serverPort = 7002
+Your turn> hi
+hi
+Your turn> how are you?
+pretty good, thanks; you?
+Your turn> not bad
+ 
+Your turn> nothing on next server prompt
+?
+Your turn> 
+don't forget to check program works for empty lines...
+Your turn> 
+#+END_EXAMPLE
+and client terminal:
+#+BEGIN_EXAMPLE
+$ nc localhost 7002
+hi
+Your turn> hi
+how are you?
+Your turn> pretty good, thanks; you?
+not bad
+Your turn> 
+nothing on next server prompt
+Your turn> ?
+
+Your turn> don't forget to check program works for empty lines...
+
+Your turn> 
+#+END_EXAMPLE
+
+** [[./src/main/scala/csp/net/SlowPortScan.scala]]
+
+This program does a sequential scan of ports 0-1023 (inclusive) of all hostnames and/or IP addresses listed on the command line.
+
+Sample run:
+#+BEGIN_EXAMPLE
+$ ./target/start csp.net.SlowPortScan localhost
+Scanning localhost
+open ports on localhost: List(22, 139, 445, 631)
+#+END_EXAMPLE
+
+
+
