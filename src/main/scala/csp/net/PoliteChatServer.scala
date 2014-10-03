@@ -13,20 +13,57 @@ object PoliteChatServer {
     print ("serverPort = %d\n".format (serverPort))
     val ss : ServerSocket = new ServerSocket (serverPort)
     while (true) {
+      System.out.println("Waiting for connections ...")
       handleRequest (ss.accept)
     }
   }
 
-  // Alternately:
-  // 1. Read one line from standard input and write it to Socket.
-  // 2. Read one line of ASCII-encoded text (up to first \n byte) from Socket and write it to standard output.
-  // The reading/writing in (2) MUST input/output each character as soon as it arrives on the Socket,
-  // so each character will appear immediately on the server (if a socat client in raw mode is used).
-  // It is not possible to put Java/Scala into a raw input mode, so you should use readLine as shown in the
-  // example below to read lines from the server's standard input.
+
   def handleRequest (s : Socket) {
-    // TODO: Complete this method.  
-    // Here is a sample use of readLine:
-    val line : String = System.console.readLine ("Your turn> ")
+    System.out.println("Connection established.")
+    val is : InputStream = s.getInputStream
+    val os : OutputStream = s.getOutputStream  
+    var status : Integer = 0
+    while (true){
+    var line : String = System.console.readLine ("Your turn> ")
+	if (line == null){
+	status = 1
+	return
+	}
+	if (line.length <= 1){
+		os.write("?\n".getBytes("us-ascii"))
+		os.write("Your turn> ".getBytes("us-ascii"))
+		os.flush
+	} else {
+		line += "\n"
+		os.write(line.getBytes("us-ascii"))
+		os.write("Your turn> ".getBytes("us-ascii"))
+		os.flush
+    }
+    var ch : Int = 0
+    var bytesRead : Int = 0
+  
+ 	while ( { ch = is.read; ch } != 10 ){
+		if (status == 1) return	        
+		System.out.write(ch)
+        	System.out.flush
+		bytesRead += 1
+        }
+	if (bytesRead == 0 && status != 1){
+		System.out.write("?\n".getBytes("us-ascii"))
+		System.out.flush
+	} else {
+	System.out.write("\n".getBytes("us-ascii"))
+	System.out.flush
+	}
+   
   }
+   is.close
+   os.close
 }
+}
+
+
+
+
+

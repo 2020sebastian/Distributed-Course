@@ -6,7 +6,7 @@ import csp.utils.Utils.{tryfinally,tryIgnore}
 import java.io.{InputStream,OutputStream}
 import java.net.{ServerSocket,Socket}
 import scala.util.Random
-
+import scala.collection.mutable.ListBuffer
 
 object SlowPortScan {
   // For each hostname or IP address on the command line, attempt to establish a TCP connection
@@ -14,9 +14,20 @@ object SlowPortScan {
   def main (args : Array[String]) {
     for (addr <- args) {
       println ("Scanning %s".format (addr))
-      // TODO: Complete this method.  
-      // Scan for open ports in the range 0-1023 (inclusive) on host given by "addr : String".
-      // Then print out the list of open ports for host "addr".
+	var result = new ListBuffer[Integer]()
+	var i = 0;
+	for (i <- 0 to 1023){
+	
+	try{	
+		val s = new Socket(addr, i)
+		result += i
+		s.close
+	} catch {
+		case (e: Exception) =>
+		}
+
+	}	
+	System.out.println("Open ports on " + addr + ": " + result.toList )
     }
   }
 

@@ -1,5 +1,4 @@
 // GENERATED
-
 package csp.net
 
 import java.io.{InputStream,OutputStream}

@@ -36,5 +36,17 @@ object Concat {
   // MUST close all of the InputStreams and the OutputStream.
   def concatStreams (sources : List[InputStream], target : OutputStream) {
     // TODO: Complete this method.
-  }
+	
+	for (i <- 0 until sources.length){
+		var numRead : Int = -1
+		val buffer : Array[Byte] = new Array[Byte] (1024 * 1024)	
+	
+		while( { numRead = sources(i).read (buffer); numRead } != -1 ){
+	        target.write(buffer, 0, numRead)
+		target.flush
+       	        }
+	sources(i).close
+	}	
+	target.close
+    }	
 }
