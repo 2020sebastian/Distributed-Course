@@ -33,19 +33,21 @@ editor.  The org-mode manual can be found online, but it might be easier to read
   screen as well as the resolution inside virtualbox.
 * Week 02 (2014-09-18 to 2014-09-23)
 ** Tasks
-  - [ ] read http://www.joelonsoftware.com/articles/Unicode.html
-  - [ ] read Textbook chapter: Streams
-  - [ ] read Textbook chapter: Looking Up Internet Addresses
-  - [ ] read Textbook chapter: Sockets for Clients
-  - [ ] read Textbook chapter: Sockets for Servers
+  - [X] read http://www.joelonsoftware.com/articles/Unicode.html
+  - [X] read Textbook chapter: Streams
+  - [X] read Textbook chapter: Looking Up Internet Addresses
+  - [X] read Textbook chapter: Sockets for Clients
+  - [X] read Textbook chapter: Sockets for Servers
 ** Experiments
  - Created a client - server application in java
 * Week 03 (2014-09-25 to 2014-09-30)
 ** Tasks
-  - [ ] read Textbook chapter: Threads
-  - [ ] ran all code in week 2 class lectures with netcat / socat (as appropriate)
+  - [X] read Textbook chapter: Threads
+  - [X] ran all code in week 2 class lectures with netcat / socat (as appropriate)
 ** Experiments
-  - test
+  - read about low latency message transmission in java
+  - read about Tibco FTL, message retransmissions, and how garbage collector
+affects performance
 * Week 04 (2014-10-02 to 2014-10-07)
 * Week 05 (2014-10-09 to 2014-10-14)
 * Week 06 (2014-10-16 to 2014-10-21) (Midterm Exam)
