@@ -120,5 +120,221 @@ Scanning localhost
 open ports on localhost: List(22, 139, 445, 631)
 #+END_EXAMPLE
 
+* Homework 3 - due 2014-10-19 by 11:59PM
 
+1. Complete the course-log.org entries for weeks 4 and 5.  This must include copying and pasting the following 
+   checklists into course-log.org, then checking the boxes to indicate you have done each one.  You must also include
+   any other reading, experiments, or new things that you have learned about distributed systems (or Linux in general).
+   (It is very helpful for me to know what is useful to you!).
+
+   *REMINDER*: Please put your journal entries inside course-log.org under the appropriate week.  My workflow is to run 
+   script/macro to open each course-log.org file in turn and open the "Week <n>" tab.  I won't go hunting elsewhere.
+
+   Week 4
+
+   - [ ] ran all code in week 3 class lectures (concurrency)
+
+   Week 5
+
+   - [ ] read Textbook chapter: Non-Blocking I/O
+   - [ ] read http://web.stanford.edu/~ouster/cgi-bin/papers/threads.pdf
+   - [ ] *OPTIONAL* read https://www.usenix.org/legacy/events/hotos03/tech/full_papers/vonbehren/vonbehren.pdf
+   - [ ] *OPTIONAL* browse "The C10K problem" http://www.kegel.com/c10k.html
+
+2. Complete the following programs and test them out.  
+
+   If you are reading this in Emacs:
+
+   - Move the cursor over each line beginning with "**" and press TAB to unfold / fold.
+
+** [[./src/main/scala/csp/net/ConcurrentHelloServer.scala]]
+
+This multithreaded server implements a simple protocol: 
+
+1. The client sends a name to the server.  The name consists of all characters up to (but not
+   including) the first newline character.
+
+2. Normally, the server responds to the client with ("hello " + name).
+   However, if the name is "backdoor", the server responds with the collection of all names
+   entered by clients in previous connections.  For this reason, the server must keep track
+   of all names entered.
+
+Example usage:
+
+1. Start the server
+
+  #+BEGIN_EXAMPLE
+  $ ./target/start csp.net.ConcurrentHelloServer
+  #+END_EXAMPLE
+
+2. Run a client and send "backdoor".  The empty set is printed back.
+
+  #+BEGIN_EXAMPLE
+  $ nc localhost 7000
+  backdoor
+  []
+  #+END_EXAMPLE
+
+3. Run a client and send "alice".  "hello alice" is printed back.
+
+  #+BEGIN_EXAMPLE
+  $ nc localhost 7000
+  alice
+  hello alice
+  #+END_EXAMPLE
+
+4. Run a client and send "bob".  "hello bob" is printed back.
+
+  #+BEGIN_EXAMPLE
+  $ nc localhost 7000
+  bob
+  hello bob
+  #+END_EXAMPLE
+
+5. Run a client and send "charlie".  "hello charlie" is printed back.
+
+  #+BEGIN_EXAMPLE
+  $ nc localhost 7000
+  charlie
+  hello charlie
+  #+END_EXAMPLE
+
+6. Run a client and send "backdoor".  The set { alice, bob, charlie } is printed back (order is
+   unimportant, and square brackets are used when printing a collection).
+
+  #+BEGIN_EXAMPLE
+  $ nc localhost 7000
+  backdoor
+  [bob, alice, charlie]
+  #+END_EXAMPLE
+
+7. The server will have been printing one line as each connection is made.
+
+  #+BEGIN_EXAMPLE
+  $ ./target/start csp.net.ConcurrentHelloServer
+  Connection from: /0:0:0:0:0:0:0:1:33593
+  Connection from: /0:0:0:0:0:0:0:1:33594
+  Connection from: /0:0:0:0:0:0:0:1:33595
+  Connection from: /0:0:0:0:0:0:0:1:33596
+  Connection from: /0:0:0:0:0:0:0:1:33597
+  #+END_EXAMPLE
+
+** [[./src/main/scala/csp/net/ConcurrentFileServer.scala]]
+
+This multithreaded server implements a very simple file server.  It only allows downloading of
+files, and only works sensibly for text files.
+
+The server prints a "> " prompt and then expects one of the following commands from the client:
+
+- "get ..."
+
+  where "..." is some path to a file on the server's side.  The server responds with the contents of
+  that file, i.e., it reads the file using a FileReader, and sends what it reads to the client.  If
+  it is a non-text file, it will look garbled on the client's side - that's why this is really just
+  for text files.
+
+- "ls ..."
+
+  where "..." is some path on the server's side.  The server responds with a list of files in the
+  directory "...".
+
+- "quit"
+
+  closes the connection to this client only.  There may be connections open between the server and
+  other clients.
+
+Example usage:
+
+1. Start the server.
+
+   #+BEGIN_EXAMPLE
+   $ ./target/start csp.net.ConcurrentFileServer
+   #+END_EXAMPLE
+
+2. Run a client and send "ls .".  It prints the files/directories in the directory ".".
+   Then send "get build.sbt".  It prints the contents of the file (obtained from the server - it should work over the network!).
+   Then send "quit".  It should close the connection and print "toodle pip".
+
+  #+BEGIN_EXAMPLE
+  $ nc localhost 7000
+  > ls .
+  ./.gitignore
+  ./README.org
+  ./build.sbt
+  ./other-tests.sbt
+  ./project
+  ./sed
+  ./src
+  ./target
+  > get build.sbt
+  import com.typesafe.sbt.SbtStartScript
+  
+  name := "CSC376 Assignments"
+  
+  version := "1.0"
+  
+  scalaVersion := "2.11.2"
+  
+  scalacOptions ++= 
+  Seq("-deprecation",
+      "-feature",
+      "-target:jvm-1.7",
+      "-unchecked")
+  
+  resolvers ++= Seq(
+  "Sonatype Releases" at "http://oss.sonatype.org/content/repositories/releases"
+  )
+  
+  libraryDependencies ++= Seq(
+  "org.scalatest"  %% "scalatest"  % "2.2.1"  % "test",
+  "org.scalacheck" %% "scalacheck" % "1.11.5" % "test",
+  "org.pegdown"    %  "pegdown"    % "1.4.2"  % "test"
+  )
+  
+  seq(SbtStartScript.startScriptForClassesSettings: _*)
+  > quit
+  toodle pip
+  #+END_EXAMPLE
+
+3. The server will have been printing one line whenever a connection is made or a file is
+   downloaded.
+
+   #+BEGIN_EXAMPLE
+   Connection from: /0:0:0:0:0:0:0:1:33785
+   Sending 'other-tests.sbt' to: /0:0:0:0:0:0:0:1:33785
+   #+END_EXAMPLE
+
+Optional: it is a bit annoying to not have command-line editing if you like that kind of thing.  To
+get command-line editing with netcat, get =rlwrap= and then run =nc= as follows.  Then you can press
+UP / DOWN / LEFT / RIGHT as you edit the line to send to the server.
+
+  #+BEGIN_EXAMPLE
+  $ sudo apt-get install rlwrap
+
+  $ rlwrap nc localhost 7000
+  #+END_EXAMPLE
+
+** [[./src/main/scala/csp/net/FastPortScan.scala]]
+
+This program does a sequential scan of ports 0-1023 (inclusive) of all hostnames and/or IP addresses listed on the command line.
+
+It differs from the previous SlowPortScan.scala in that it creates a new thread for each attempted socket connection.  
+
+With SlowPortScan, the attempt to connect to port N must succeed, fail, or timeout, before the attempt to connect to port N+1
+begins.  If a firewall causes timeouts by discarding attempts to establish connections, the scan for the host will take
+(1024*timeout).
+
+With FastPortScan, all attempts to establish connections occur concurrently, so the maximum length of time should be (timeout).
+
+Sample run:
+#+BEGIN_EXAMPLE
+$ ./target/start csp.net.FastPortScan localhost 
+[(localhost,445), (localhost,631), (localhost,139), (localhost,22)]
+#+END_EXAMPLE
+
+* Local variables
+
+Local Variables:
+fill-column: 100
+End:
 
