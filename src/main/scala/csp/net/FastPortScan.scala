@@ -12,24 +12,27 @@ object FastPortScan {
   // For each hostname or IP address on the command line, attempt to establish a TCP connection
   // to that address on each port 0-1023 (inclusive).
   def main (args : Array[String]) {
-    // TODO: Change this declaration so that "open" is not null.
-    // Ensure that "open" is a synchronized data structure.
-    // HINT: look in examples/src/main/scala/csp/threads/Contention.scala
-    val open : Set[(String,Int)] = null
+    val open : Set[(String,Int)] = Collections.synchronizedSet(new HashSet())
 
     val ts : List[Thread] = for (addr <- args.toList; port <- (0 to 1023).toList) yield {
       new Thread (new Runnable {
         def run () {
           val pair : (String,Int) = (addr, port)
-          // TODO: Complete this code.  
-          // Attempt to open a connection to "port" on host "addr".
-          // If it succeeds, add "pair" to "open".
-        }
+    	try{	
+		val s = new Socket(addr, port)
+		open.add(pair)
+		s.close
+		
+	} catch {
+		case (e: Exception) =>
+		}
+	
+	    }
       })
     }
 
-    // TODO: Complete this code.
-    // Start all of the threads, then wait for them all to terminate (join with them).
+     for (t <- ts) { t.start }
+     for (t <- ts) { t.join }
 
     // Print the list of address and port pairs.
     println (open)

@@ -7,7 +7,7 @@ import java.io.{BufferedReader,BufferedWriter,File,FileReader,InputStream,InputS
 import java.net.{ServerSocket,Socket}
 import java.util.{Collections,HashSet,Set}
 import java.util.regex.{Matcher,Pattern}
-
+import scala.sys.process._
 
 object ConcurrentFileServer {
   def main (args : Array[String]) {
@@ -33,17 +33,32 @@ object ConcurrentFileServer {
             pw.print ("> ")
             pw.flush 
           }
-          // TODO: Complete this method.  
+        var done : Boolean = false
+        var line : String = null
+        
+	  while ( !done && { prompt; line = br.readLine; line != null } ) {
+          val mGet : Matcher = pGet.matcher (line)
+          val mLs : Matcher = pLs.matcher (line)
+          val mQuit: Matcher = pQuit.matcher (line)
           
-          // Read a line from the client.  Process it as described in homework.org.  Repeat until 
-          // end of file from the client, or the client sends the command "quit".
+	  if (mGet.matches) {
+            val key : String = mGet.group (1)
+	    println("Sending "+ key + " to: " + s.getRemoteSocketAddress)
+	    pw.write(("cat " + key)!!)
+	    pw.flush
           
-          // HINT: Look at examples/src/main/scala/csp/net/ConcurrentHashMapServer.scala for how to 
-          // read a sequence of commands (one per line) and then use regular expression pattern-matching
-          // to get data from the command line.  The regular expressions are already defined above for you.
-
+	   } else if (mLs.matches) {
+            val key : String = mLs.group (1)
+	    pw.write(("ls "+ key)!!)
+	    pw.flush
+           
+          } else if (mQuit.matches) {
+		done = true
+	  }
         }
       }
     }
-  }
 }
+}
+}
+

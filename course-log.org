@@ -49,7 +49,22 @@ editor.  The org-mode manual can be found online, but it might be easier to read
   - read about Tibco FTL, message retransmissions, and how garbage collector
 affects performance
 * Week 04 (2014-10-02 to 2014-10-07)
+ - [X] ran all code in week 3 class lectures (concurrency)
+** Experiments
+   - read about threads, livelock, countdown latch in java
+
 * Week 05 (2014-10-09 to 2014-10-14)
+   - [X] read Textbook chapter: Non-Blocking I/O
+   - [X] read http://web.stanford.edu/~ouster/cgi-bin/papers/threads.pdf
+   - [X] *OPTIONAL* read https://www.usenix.org/legacy/events/hotos03/tech/full_papers/vonbehren/vonbehren.pdf
+   - [X] *OPTIONAL* browse "The C10K problem" http://www.kegel.com/c10k.html
+
+** Experiments
+   - created a sample program that increments a counter. There are n threads that increment n
+     counters in an array, and one thread that does the total and increments the final counter.
+   - I'm expecting this to be faster than a regular incrementer because threads have increase
+     access to the variable.
+
 * Week 06 (2014-10-16 to 2014-10-21) (Midterm Exam)
 * Week 07 (2014-10-23 to 2014-10-28)
 * Week 08 (2014-10-30 to 2014-11-04)
