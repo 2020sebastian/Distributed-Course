@@ -4,8 +4,15 @@
   <lastName>Demian</lastName>
   <courseLogs>
     <week score="1.5" max="1.5" name="WK01">sorry to hear about vim plugin problems :-/ please add name to course-log.org</week>
-    <week score="" max="1.5" name="WK02"/>
-    <week score="" max="1.5" name="WK03"/>
+    <week score="1.5" max="1.5" name="WK02">OK</week>
+    <week score="1.5" max="1.5" name="WK03">
+      Tibco is an (enterprise) message bus, IIRC?  There are lots of these things.  I keep lists of things that I want to look
+        at should I ever get a reason/opportunity, and ZeroMQ is at the top of my list for that category (but only because of
+        snippets seen on the Internet, not because I have evidence it's the best).  
+
+        You might enjoy this answer for its comparison between MQ and Akka (and the entire thread).
+        http://stackoverflow.com/questions/4493001/good-use-case-for-akka#comment19550241_4494522
+    </week>
     <week score="" max="1.5" name="WK04"/>
     <week score="" max="1.5" name="WK05"/>
     <week score="" max="1.5" name="WK06"/>
@@ -16,7 +23,15 @@
   </courseLogs>
   <homework>
     <assignment score="10" max="10" name="HW1"/>
-    <assignment score="" max="10" name="HW2"/>
+    <assignment score="10" max="10" name="HW2">
+      Compiles successfully.
+
+        csp.io.Concat - OK
+
+        csp.net.SlowPortScan - OK
+
+        csp.net.PoliteChatServer - OK.  The &quot;?&quot; made me chuckle.  Watch out for nested while having to deal with != -1 in addition to != '\n'.
+    </assignment>
     <assignment score="" max="10" name="HW3"/>
     <assignment score="" max="10" name="HW4"/>
     <assignment score="" max="10" name="HW5"/>
@@ -29,10 +44,10 @@
     <date attended="yes">2014-09-18</date>
     <date attended="yes">2014-09-23</date>
     <date attended="yes">2014-09-25</date>
-    <date attended="">2014-09-30</date>
-    <date attended="">2014-10-02</date>
-    <date attended="">2014-10-07</date>
-    <date attended="">2014-10-09</date>
+    <date attended="yes">2014-09-30</date>
+    <date attended="yes">2014-10-02</date>
+    <date attended="no">2014-10-07</date>
+    <date attended="yes">2014-10-09</date>
     <date attended="">2014-10-14</date>
     <date attended="">2014-10-16</date>
     <date attended="">2014-10-21</date>
