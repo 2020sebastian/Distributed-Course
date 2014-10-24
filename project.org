@@ -1,0 +1,27 @@
+
+* Title
+- CS Trivia Server
+ 
+* Projects Goals
+** What: 
+
+- this server will accept conections from different clients and allow them to play CS trivia via the command line. The server will keep track of each player, have statistics and be able to interact with the players similar to an IRC chat server. The server will send both questions and coding problems to users. Whichever user sends the correct answer/solution will win the round.
+
+** How:
+  
+ - User connects to server. If user has an account, server will display welcome message along with statistics, and current users who are playing.
+ - If user account does not exist, user will be asked to register, provide nickname and other relevant information. Server will then add user to existing round of games.
+ - For coding problems, users will be asked to write the answer into a .java or .py file and send it over with the "!submit file.py" command. The file will then be executed by the server via javac compiler or python and the result will be evaluated. The first correct answer wins, and the solution is being sent instantly to other players. 5 seconds later the next round starts. The questions and coding problems will be on an alternate basis
+
+* Timeline
+- Basic functionality                                   Nov 8
+- Full structural functionality                         Nov 15
+- Fixed bugs, logic errors, and added questions         Nov 22
+
+* Misc. information
+
+- Implementation and functionality might change as the project progresses, due to technical or time constraints. 
+
+For example (alternatives):
+- have users execute code locally and provide the answer
+- get the code from user and execute it in a separate docker container for security issues
