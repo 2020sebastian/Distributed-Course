@@ -332,6 +332,102 @@ $ ./target/start csp.net.FastPortScan localhost
 [(localhost,445), (localhost,631), (localhost,139), (localhost,22)]
 #+END_EXAMPLE
 
+* Homework 4 - due 2014-11-09 by 11:59PM
+
+1. Complete the course-log.org entries for weeks 6 and 7.  This must include copying and pasting the following 
+   checklists into course-log.org, then checking the boxes to indicate you have done each one.  You must also include
+   any other reading, experiments, or new things that you have learned about distributed systems (or Linux in general).
+   (It is very helpful for me to know what is useful to you!).
+
+   *REMINDER*: Please put your journal entries inside course-log.org under the appropriate week.  My workflow is to run 
+   script/macro to open each course-log.org file in turn and open the "Week <n>" tab.  I won't go hunting elsewhere.
+
+   Week 6
+
+   - [ ] ran all code in non-blocking I/O class lectures (java.nio and Netty)
+
+   Week 7
+
+   - [ ] survived class
+
+2. Complete the following programs and test them out.  
+
+   If you are reading this in Emacs:
+
+   - Move the cursor over each line beginning with "**" and press TAB to unfold / fold.
+
+** [[./src/main/scala/csp/net/NIOCensor.scala]]
+
+This server uses =select= from =java.nio= to implement a simple protocol for multiple clients.
+
+The server reads bytes sent to it from the client.  After each read, it writes the same number of
+bytes back to the client *immediately*.  The bytes/characters written back must satisfy the
+following conditions.  You must assume an ASCII encoding for the data, i.e., each byte is one
+character.
+
+1. For each character read from the client that is neither '\r' nor '\n', write 'x' back to the
+   client.
+
+2. For each character '\r' or '\n' read from the client, write the same character '\r' or '\n' back
+   to the client.
+
+Example usage:
+
+1. Start the server
+
+  #+BEGIN_EXAMPLE
+  $ ./target/start csp.net.NIOCensor
+  #+END_EXAMPLE
+
+2. Run netcat and send "hello" then "the rain in spain" (press ENTER after each one).  The same
+   number of "x" bytes is returned (plus the same end of line characters sent by netcat).
+
+  #+BEGIN_EXAMPLE
+  $ nc localhost 7000
+  hello
+  xxxxx
+  the rain in spain
+  xxxxxxxxxxxxxxxxx
+  #+END_EXAMPLE
+
+3. Run socat in raw mode and send "hello" then "the rain in spain" (press ENTER then Control-j after
+   each one).  The same number of "x" bytes is returned (plus the same end of line characters sent
+   by socat).  The difference is that there is no local echoing on the client this time.  Press
+   Control-o to quit socat.
+
+  #+BEGIN_EXAMPLE
+  $ socat STDIO,raw,echo=0,escape=0x0f TCP:localhost:7000
+  xxxxx
+  xxxxxxxxxxxxxxxxx
+  #+END_EXAMPLE
+
+** [[./src/main/scala/csp/net/NIOFileServer.scala]]
+
+This server uses =select= from =java.nio= to implement a very simple file server for multiple
+clients.  This server behaves like the ConcurrentFileServer.scala from homework 3, but is
+implemented using a single thread.
+
+You should implement the "ls" and "get" commands as in ConcurrentFileServer.  You need not implement
+the "quit" command. 
+
+A few helper functions are given to you in the file.  You are free to use these functions in your
+code.
+
+For further instructions, see the comments in the file.
+
+** [[./src/main/scala/csp/net/NettyFileServer.scala]]
+
+This server uses Netty to implement a very simple file server for multiple clients.  This server
+behaves like the ConcurrentFileServer.scala from homework 3, but Netty is responsible for management
+of threads and the event loop.
+
+You should implement the "ls", "get", and "quit" commands as in ConcurrentFileServer.  NOTE: you
+MUST implement the "quit" command.
+
+I strongly recommend that you base your code on the following from the class examples:
+
+  src/main/scala/csp/netty/CommandServer.scala
+
 * Local variables
 
 Local Variables:
