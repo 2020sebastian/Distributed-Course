@@ -13,8 +13,10 @@
         You might enjoy this answer for its comparison between MQ and Akka (and the entire thread).
         http://stackoverflow.com/questions/4493001/good-use-case-for-akka#comment19550241_4494522
     </week>
-    <week score="" max="1.5" name="WK04"/>
-    <week score="" max="1.5" name="WK05"/>
+    <week score="1.5" max="1.5" name="WK04"/>
+    <week score="1.5" max="1.5" name="WK05">
+      This is a good experiment to try.  I'm not quite sure what you are doing, but if you have 2 threads incrementing a shared variable, I'd expect it to be slower than 1 thread incrementing the variable, even on a machine with 2 hardware threads.  That's because of synchronization (so the shared variable can't live in a register) and lock contention (I want the lock; no, I want the lock; no, me!).
+    </week>
     <week score="" max="1.5" name="WK06"/>
     <week score="" max="1.5" name="WK07"/>
     <week score="" max="1.5" name="WK08"/>
@@ -32,7 +34,15 @@
 
         csp.net.PoliteChatServer - OK.  The &quot;?&quot; made me chuckle.  Watch out for nested while having to deal with != -1 in addition to != '\n'.
     </assignment>
-    <assignment score="" max="10" name="HW3"/>
+    <assignment score="10" max="10" name="HW3">
+      Compiles successfully.
+
+        csp.net.ConcurrentHelloServer - OK.
+
+        csp.net.ConcurrentFileServer - OK.
+
+        csp.net.FastPortScan - OK
+    </assignment>
     <assignment score="" max="10" name="HW4"/>
     <assignment score="" max="10" name="HW5"/>
     <assignment score="" max="10" name="HW6"/>
