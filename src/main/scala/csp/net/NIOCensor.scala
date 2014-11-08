@@ -58,12 +58,37 @@ object NIOCensor {
   class Handler (selector : Selector, sc : SocketChannel) {
     val rb = ByteBuffer.allocate (16384)
     def read () {
-      assert (rb.position == 0)
-      // TODO: Complete this method.
-      // Read from "sc", then write the same number of bytes back to the client.
-      // You should assume an ASCII encoding for the data, i.e., each byte is one character.
-      // For each character read from the client that is neither '\r' nor '\n', write 'x' back to the client.
-      // For each character '\r' or '\n' read from the client, write the same character '\r' or '\n' back to the client.
+    val numRead = sc.read(rb)
+    
+	if (numRead == -1) {
+      	sc.close
+    	
+	} else if (numRead == 0) {
+      	// do nothing
+    	
+	} else {
+		if (rb.get == 10 || rb.get == 13){
+      		sc.write (rb)
+		} else {
+		val temp = "x" * (numRead-1) + "\n"
+		rb.clear
+		rb.put(temp.getBytes)
+		rb.flip
+		sc.write(rb)
+		}
+    	} 
+   	rb.clear
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+

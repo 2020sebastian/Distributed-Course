@@ -10,7 +10,7 @@ import java.nio.channels.{Channels,SelectionKey,Selector,ServerSocketChannel,Soc
 import java.util.{HashMap,Set}
 import java.util.regex.{Matcher,Pattern}
 import scala.collection.JavaConversions._
-
+import scala.sys.process._
 
 object NIOFileServer {
   def main (args : Array[String]) {
@@ -99,18 +99,48 @@ object NIOFileServer {
 
 
   class Handler (selector : Selector, sc : SocketChannel) {
-    // TODO:
-    // You can add more field or method declarations here if you like.
+    	val pGet = Pattern.compile ("^get (.*)$")
+  	val pLs = Pattern.compile ("^ls (.*)$")
+
     val rb = ByteBuffer.allocate (16384)
     def read () {
-      assert (rb.position == 0)
-      // TODO: Complete this method.
-      // Read from "sc".  
-      // Split that input into lines (delimited by '\n') (you can use the splitString method above).
-      // Each line should be either an "ls" or "get" command as in the previous ConcurrentFileServer 
-      // assignment (you need not implement the "quit" command).
-      // Execute each command and send the results to the client over "sc".
-      // You should send a new prompt "> " after each command is executed.
+      
+	val numRead = sc.read (rb)
+	println ("read: %d".format (numRead))
+
+ 	
+        //val result : (List[String], String) = splitString(new String(rb.array))
+
+	var line = new String(rb.array)
+	print ("Read: " + line)
+
+	  val mGet : Matcher = pGet.matcher (line)
+          val mLs : Matcher = pLs.matcher (line)
+          
+	  if (mGet.matches) {
+            val key : String = mGet.group (1)
+		rb.clear
+		val result = (("cat " + key)!!)
+		rb.put(result.getBytes)
+		rb.flip
+		sc.write(rb)
+		rb.clear
+	 
+          
+	   } else if (mLs.matches) {
+            	val key : String = mLs.group (1)
+        	rb.clear
+		val result = (("ls -al")!!)
+		rb.put(result.getBytes)
+		rb.flip
+		sc.write(rb)
+		rb.clear 
+	}  
+	rb.put(">\n".getBytes)
+	rb.clear
+	rb.flip
+	sc.write(rb)
+	rb.clear
      }
   }
 }
