@@ -428,6 +428,74 @@ I strongly recommend that you base your code on the following from the class exa
 
   src/main/scala/csp/netty/CommandServer.scala
 
+* Homework 5 - due 2014-11-20 by 11:59PM
+
+1. Complete the course-log.org entries for weeks 8 and 9.  This must include copying and pasting the following 
+   checklists into course-log.org, then checking the boxes to indicate you have done each one.  You must also include
+   any other reading, experiments, or new things that you have learned about distributed systems (or Linux in general).
+   (It is very helpful for me to know what is useful to you!).
+
+   *REMINDER*: Please put your journal entries inside course-log.org under the appropriate week.  My workflow is to run 
+   script/macro to open each course-log.org file in turn and open the "Week <n>" tab.  I won't go hunting elsewhere.
+
+   Week 8
+
+   - [ ] Concluded that java.nio is a pain.
+
+   Week 9
+
+   - [ ] Tried running all of the Akka examples
+
+2. Complete the following programs and test them out.  
+
+   If you are reading this in Emacs:
+
+   - Move the cursor over each line beginning with "**" and press TAB to unfold / fold.
+
+** [[./src/main/scala/csp/akka/Monster.scala]]
+
+This server contains a monster that moves between client terminals and occasionally hides.  To get
+the monster, you must type "pew pew" into the client terminal with the monster, before it moves.
+
+A running version was demonstrated in class on 2014-11-13.  You can see the video recording (at the
+beginning of that class) to watch it in action.
+
+You should first try a working version by downloading:
+
+  http://fpl.cs.depaul.edu/cpitcher/courses/csc376/monster.jar
+
+Start the server using:
+
+#+BEGIN_EXAMPLE
+java -jar monster.jar
+#+END_EXAMPLE
+
+Then connect with at least two clients using two new terminals.  In each one, run:
+
+#+BEGIN_EXAMPLE
+nc localhost 7000
+#+END_EXAMPLE
+
+Try typing "pew pew" and ENTER into a client terminal when the monster appears.  You have to be
+quick!
+
+Your task is to complete the existing Monster.scala code to achieve the same behavior.
+
+The code is structured using a single Server actor, and one Handler actor per client connection (as
+in the previous Akka examples with TCP connections).  There is a single Monster actor that is
+responsible for the monster's behavior.  It receives data from each Handler, e.g., when "pew pew" or
+some other string has arrived.  It writes data to each Handler (as a message), e.g., to say when the
+monster has been hit or not.  It also receives messages about when a Handler actor is Terminated
+(meaning the client TCP connection has ended, and it can use that to make sure the monster is not
+stuck "in" a non-existing client.
+
+To run your own code, use the following command (if you get an error message about not finding the
+ActorSystem, rerun "startScript" from the SBT console):
+
+#+BEGIN_EXAMPLE
+./target/start csp.akka.Monster
+#+END_EXAMPLE
+
 * Local variables
 
 Local Variables:
