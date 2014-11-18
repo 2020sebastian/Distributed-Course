@@ -76,7 +76,17 @@ affects performance
    - [X] Reading about Reactor Framework
 
 * Week 08 (2014-10-30 to 2014-11-04)
+- [X] Java NIO is not such a pain after all
+
+** Experiments 
+- [X] Finished reading the documentation for Reactor
+- [X] Read The Reactive Manifesto
+
 * Week 09 (2014-11-06 to 2014-11-11)
+- [X] Ran all of the Akka examples
+** Experiments
+- [X] Played around with akka and realized it might be a better fit for my project
+  
 * Week 10 (2014-11-13 to 2014-11-18)
 * Local Variables
 

@@ -60,22 +60,41 @@ object Monster {
         context.watch (handler)
         clearScreen (handler)
       case m @ HandlerReceived (data, handler) =>
-        // TODO:
-        // If the data received by the handler is "pew pew" and the monster is at the current client/handler, 
-        // then send "You got me, the pain, the agony, urgh...\n" to the client's terminal (via "handler"), 
-        // and print "Hit the monster" to the server terminal.
-        // Otherwise, print "Nyah, nyah, nyah, nyah, nyah...\n" to the client's terminal (if the monster is not hiding),
-        // and print "Missed the monster" to the server terminal.
+        val text : String = data.decodeString ("utf-8").trim
+      
+        text match {
+          case "pew pew" =>
+          
+                current match {
+                  case Some (currentHandler) =>
+                        handler ! HandlerWrite(ByteString ("You got me, the pain, the agony, urgh...\n"))
+                        println("Hit the monster")
+                  case _ => 
+                        handler ! HandlerWrite(ByteString ("Nyah, nyah, nyah, nyah, nyah...\n"))
+                        println("Missed the monster")
+          } case _ => 
+            ()
+       }
+
       case m @ MonsterMove =>
-        // TODO:
-        // Time to move the monster.
+        current = chooseNew
+        println("Monster moved to " + current)
+        current match {
+          case Some (currentHandler) => 
+              currentHandler ! HandlerWrite(ByteString ("MONSTER !!!\n"))
+              Thread.sleep(1000)
+              clearScreen(currentHandler)
+          case _ => 
+            ()
+        }
+
+
       case m @ Terminated (terminatedHandler) =>
         println (m + " / " + sender)
         handlers.remove (terminatedHandler)
         current match {
           case Some (currentHandler) if (terminatedHandler == currentHandler) => 
-            // TODO:
-            // Client died, move the monster.
+            current = chooseNew
           case _ => 
             ()
         }
