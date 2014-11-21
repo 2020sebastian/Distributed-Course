@@ -32,7 +32,9 @@ object TriviaServer {
                        "nibble" -> "What name is given to half of a Byte (4 bits)?",
                        "modulation and demodulation" -> "From the computer world: What does the word 'modem' abbreviate?",
                        "1969" -> "In what year did ARPANET became operational?",
-                       "philips" -> "Which company first manufactured CDs")
+                       "philips" -> "Which company first manufactured CDs",
+                       "233168" -> """Coding Problem:\n If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9.
+                                      The sum of these multiples is 23.\nFind the sum of all the multiples of 3 or 5 below 1000.""")
                       
 
   def mkHandlerName () : String =
@@ -58,17 +60,24 @@ object TriviaServer {
     def receive = {
       
       case m @ Connected (remote, local) =>
+        
         playerID = remote.getPort
         totalPlayers += 1 
+        
         val text = "Player "+ playerID +" has joined.\n"
         print (text)
+        
         forwarder ! CreateClient (remote, sender)
+        
+        //the first player doesn't need to know he joined the game
         if (totalPlayers != 1)
             forwarder ! ClientWrite (ByteString (text))
       
       case m @ NewQuestion =>
         
         if (startGame == true && pause == false){
+            
+            //get random question
             expectedAnswer = Random.shuffle(questions.keys.toList).head
             currentQuestion = questions.getOrElse(expectedAnswer, "")
             forwarder ! ClientWrite (ByteString (currentQuestion + "\n"))
@@ -95,6 +104,7 @@ object TriviaServer {
     self ! ClientWrite (ByteString ("\nWelcome to TriviaServer\n"))
     self ! ClientWrite (ByteString ("You are player "+ playerID +"\n"))
     self ! ClientWrite (ByteString ("For a list of available commands type: !help\n"))
+    self ! ClientWrite (ByteString ("For coding problems execute your code locally in your preferred languange and only provide the result via command line.\n"))
     self ! ClientWrite (ByteString ("\n*************************************************************\n"))
 
     def receive = {
@@ -125,7 +135,7 @@ object TriviaServer {
           case "!start" => 
             if (startGame == false) {
             context.parent ! ClientWrite (ByteString("New Game Starting\n"))
-            Thread.sleep(2000)
+            Thread.sleep(1000)
             context.parent ! ClientWrite (ByteString("Remember to type your answer in lowercase letters.\n"))
             Thread.sleep(1000)
             context.parent ! ClientWrite (ByteString("Go !!!\n"))
@@ -138,14 +148,14 @@ object TriviaServer {
             startGame = false
             pause = false
             context.parent ! ClientWrite (ByteString("Game stopped by player "+remote.getPort+".\n"))
+          
           case _ => 
-            
+            //get user input and determine if it's correct
             val d : String = data.decodeString ("utf-8").trim
-
             if(startGame == false){
                 self ! ClientWrite (ByteString("Be patient.. the game hasn't started yet\n"))
             } else {
-
+              //correct input
               if (d.equals(expectedAnswer)){
                  self ! ClientWrite (ByteString ("Correct !!!\n"))
                  context.parent ! ClientWrite (ByteString("Player "+ remote.getPort + " answerred correctly: "+expectedAnswer+ "\n"))
