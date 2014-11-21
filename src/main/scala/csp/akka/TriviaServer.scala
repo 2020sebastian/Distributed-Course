@@ -67,6 +67,7 @@ object TriviaServer {
             forwarder ! ClientWrite (ByteString (text))
       
       case m @ NewQuestion =>
+        
         if (startGame == true && pause == false){
             expectedAnswer = Random.shuffle(questions.keys.toList).head
             currentQuestion = questions.getOrElse(expectedAnswer, "")
@@ -154,10 +155,7 @@ object TriviaServer {
                  context.parent ! ClientWrite (ByteString("**************\n\n"))
               } else {
                 self ! ClientWrite (ByteString ("Try again !\n"))
-              
-              }
-            
-
+                }
             }
         }
       case r @ NewQuestion => 
