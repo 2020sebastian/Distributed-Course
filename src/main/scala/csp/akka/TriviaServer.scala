@@ -15,24 +15,37 @@ object TriviaServer {
   case object NewQuestion
   
   val pattern = "^!(.*)$".r
-
   var expectedAnswer = ""
   var currentQuestion = ""
-
-  val questions = Map("James Gosling" -> "Name the primary creator of the Java programming language.",
-                       "1970" -> "What is the year of the Unix epoch?",
-                       "1998" -> "What year was Google founded?")
-
-
   var playerID = 0
   var totalPlayers = 0
   var startGame = false
   var pause = false
 
- 
+  val questions = Map("james gosling" -> "Name the primary creator of the Java programming language.",
+                       "1970" -> "What is the year of the Unix epoch?",
+                       "1998" -> "What year was Google founded?",
+                       "quicksort"->"If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?",
+                       "cisco" -> "Which company is the largest manufacturer of network equipment?",
+                       "ibm" -> "Which company invented the floppy disk?",
+                       "tux" -> "What is the name of Linux’s Mascot",
+                       "nibble" -> "What name is given to half of a Byte (4 bits)?",
+                       "modulation and demodulation" -> "From the computer world: What does the word 'modem' abbreviate?",
+                       "1969" -> "In what year did ARPANET became operational?",
+                       "philips" -> "Which company first manufactured CDs")
+                      
+
   def mkHandlerName () : String =
     "Player" + playerID
   
+  def printServerWelcome = {
+    println("\n**********************************************")
+    println("          Trivia Server v0.1")
+    println("**********************************************")
+    println ("\nWaiting for Players to connect ... \n")
+  }
+
+
   class Server extends Actor {
     val forwarder : ActorRef = context.actorOf (Props[Forwarder], "forwarder")
     val manager : ActorRef = IO (Tcp) (context.system)
@@ -40,10 +53,7 @@ object TriviaServer {
     
     context.system.scheduler.schedule (0.milliseconds, 5000.milliseconds, self, NewQuestion) (context.system.dispatcher)
     
-    println("\n**********************************************")
-    println("          Trivia Server v0.1")
-    println("**********************************************")
-    println ("\nWaiting for Players to connect ... \n")
+    printServerWelcome
     
     def receive = {
       
@@ -114,7 +124,7 @@ object TriviaServer {
           case "!start" => 
             context.parent ! ClientWrite (ByteString("New Game Starting\n"))
             Thread.sleep(2000)
-            context.parent ! ClientWrite (ByteString("Get ready ...\n"))
+            context.parent ! ClientWrite (ByteString("Remember to type your answer in lowercase letters.\n"))
             Thread.sleep(1000)
             context.parent ! ClientWrite (ByteString("Go !!!\n"))
             startGame = true
