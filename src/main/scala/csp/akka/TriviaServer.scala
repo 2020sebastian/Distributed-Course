@@ -122,14 +122,17 @@ object TriviaServer {
             
 
           case "!start" => 
+            if (startGame == false) {
             context.parent ! ClientWrite (ByteString("New Game Starting\n"))
             Thread.sleep(2000)
             context.parent ! ClientWrite (ByteString("Remember to type your answer in lowercase letters.\n"))
             Thread.sleep(1000)
             context.parent ! ClientWrite (ByteString("Go !!!\n"))
             startGame = true
+          } else {
+            self ! ClientWrite (ByteString ("Game is already running\n"))
+          }
             
-
           case "!stop" => 
             startGame = false
             pause = false
