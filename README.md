@@ -1,9 +1,9 @@
 # Final Project Documentation
 
-** Intro
+## Intro
 For the final project I built a Trivia server for coders. This server allows users to connect via good old fashioned command line and play trivia with questions from computer science as well as submit answers for coding excercises (similar to ProjectEuler.net). I built it using akka and Actor model/pattern.
 
-** Server
+## Server
    The server can be started running ./target/start csp.akka.TriviaServer via command line. Once it starts, it displays the welcome screen to the admin, and waits for users to connect on port 7000. 
 
 Once a user connects, it displays a log message on the server side indicating that a user joined. It also mentions the user's ID (which is the port number the user connects from). For instance: Player 57800 has joined.
@@ -20,7 +20,7 @@ For coding problems execute your code locally in your preferred languange and on
 
 *************************************************************
 
-** Clients
+## Clients
 
 As soon as the client connects to the server, he/she can type !help. This will display an info screen with relevant commands.
 
@@ -36,7 +36,7 @@ Sample info screen (sent only to the user who requests it):
 All of these commands are returning the response only to the user who requests it.
 This server can handle a large number of players, and it can have features easily added to it.
 
-** Usage
+## Usage
 
 When user types !start, a new game will begin in 3 seconds. The delay allows other users to get ready for the next question.
 
