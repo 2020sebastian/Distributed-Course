@@ -1,108 +1,143 @@
-# Instructions
+*** Final Project Documentation
 
-This repository contains the assignments for CSC376 Fall 2014.
+** Intro
+For the final project I built a Trivia server for coders. This server allows users to connect via good old fashioned command line and play trivia with questions from computer science as well as submit answers for coding excercises (similar to ProjectEuler.net). I built it using akka and Actor model/pattern.
 
-You should check out your personal repository from BitBucket.  Make your changes to the files in
-that repository, commit the changes, and then push back to BitBucket.  The instructor will then be
-able to review your submission.
+** Server
+   The server can be started running ./target/start csp.akka.TriviaServer via command line. Once it starts, it displays the welcome screen to the admin, and waits for users to connect on port 7000. 
 
-For all assignments, you must commit source code that compiles without error.  Submissions where the
-source code does not compile will receive 0 points.  You can confirm that your source code compiles
-correctly by running the following command in your repository directory:
+Once a user connects, it displays a log message on the server side indicating that a user joined. It also mentions the user's ID (which is the port number the user connects from). For instance: Player 57800 has joined.
 
-    sbt compile
+At the same time, it sends a welcome message to the client along with some indication on how to start the activity once the user has connected.
 
-# Software Requirements
+Sample welcome screen:
 
-You will need to install:
+*************************************************************
+Welcome to TriviaServer
+You are player 57800
+For a list of available commands type: !help
+For coding problems execute your code locally in your preferred languange and only provide the result via command line.
 
-- Java SE 8 http://www.oracle.com/technetwork/java/javase/downloads/index.html
+*************************************************************
 
-- Scala Build Tool (SBT) http://www.scala-sbt.org/download.html
+** Clients
 
-# Scala Build Tool (SBT)
+As soon as the client connects to the server, he/she can type !help. This will display an info screen with relevant commands.
 
-The Scala Build Tool (SBT http://www.scala-sbt.org/) is used to compile and test the Scala
-assignments.  Files must **NOT** be renamed or refactored, and the test code and build instruction
-files must **NOT** be altered.  Specifically, you should only edit files under `src/main/`.
+Sample info screen (sent only to the user who requests it):
 
-SBT will take care of downloading the correct version of Scala for you.  You will need to be
-connected to the Internet when you do this.
+***************  List of available commands  *******************
+<!start>           - start a new Trivia Game
+<!stop>            - stops the current game
+<!players>         - displays the number of players connected
+<!bye>             - exit the trivia game
+<!whoami>          - lists information about current player
 
-## Launch SBT
+All of these commands are returning the response only to the user who requests it.
+This server can handle a large number of players, and it can have features easily added to it.
 
-From a shell window (Linux or OS X) or CMD/Powershell prompt (Windows), launch SBT using the command
-you set up during SBT installation.  This is usually just `sbt`.  For example:
+** Usage
 
-    $ sbt
-    [info] Loading project definition from /csc376/main/project
-    [info] Set current project to CSC376 Assignments (in build file:/csc376/main/)
-    >
+When user types !start, a new game will begin in 3 seconds. The delay allows other users to get ready for the next question.
 
-## Launch Scala Console from SBT
+Sample Screen:
+**********************
+!start
+New Game Starting
+Remember to type your answer in lowercase letters.
+Go !!!
+-Question goes here-
+**********************
 
-To launch the Scala console from the SBT console, run:
+When a user types !stop, all other users will receive a message announcing who stopped the game. When any of the other users will type !start, game will be resumed and will not start over.
 
-    console
+****************
+!stop
+Game stopped by player 57800.
+****************
 
-To exit the Scala console and return to the SBT console, enter:
 
-    :quit
+When a user types !players, he/she will get a reply back with the total number of users currently logged in and playing:
 
-You will have access to your source code files in the Scala console.
+**************
+!players
+Current players: 10
 
-Note: if you paste into the Scala console, the parser looks for the smallest syntactically correct
-expression, and this may not be what you want.  If this becomes problematic, you should either put
-curly braces around the body of functions when pasting (this has been done for you already in the
-homework assignments), or to investigate the `:paste` command in the Scala interpreter, i.e., type
-`:paste`, then paste code in.
+**************
 
-## Compiling with SBT
 
-To compile the Scala source code with SBT, run:
+The !bye command will disconnect the user who requested it
 
-    compile
-    
-To continuously compile, run:
 
-    ~compile
+Whenever a user joins in, all other playes will get a status update announcing the ID of the user who joined.
 
-## Running Code
+*****************
+Player 57917 has joined.
+Player 57922 has joined.
+Player 57911 has joined.
+Player 57928 has joined.
+*****************
 
-You can run your Scala code from the command line as you would a Java program.  However, the
-management of library code (in JAR files) becomes tedious and error prone as the number of libraries
-increases.  A nonsense example illustrates the point:
+Any other input that does not start with "!" at the beginning will be considered a response to a question.
+If there is no game currently running, user will be informed accordingly:
 
-    scala -cp lib/lib1.jar:lib/lib2.jar:/some/other/path/lib3.jar org.example.Main
-    
-In this repository, SBT has been configured to allow generation of a shellscript that manages these
-dependencies.
+********************
+a
+Be patient.. the game hasn't started yet
+Hello
+Be patient.. the game hasn't started yet
+********************
 
-Firstly, start SBT by running `sbt` as usual.
+When the game is running, the question will stay active until somebody answers it correctly. When a player answers correctly to the question, all other users will be announced:
 
-Secondly, run the following command in the SBT console:
+New Game Starting
+Remember to type your answer in lowercase letters.
+Go !!!
+If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?
+                           
+                          (one of the players answers correctly)
 
-    startScript
-    
-This will generate a shellscript `target/start` that invokes a Scala class with a classpath
-including all JAR files for the SBT project.  
 
-From the shell, you can then run, e.g.,
+Player 57961 answerred correctly: quicksort
 
-    $ ./target/start csp.net.ServerDemoIO
+**************
+Next Question:
+**************
 
-NOTE: as assignments are added to the repository, we will have more dependencies, so you will need
-to re-run `startScript` to regenerate the shellscript file!
+Which company is the largest manufacturer of network equipment?
 
-## Offline Work with SBT
 
-You need to have Internet connectivity when you initially ask SBT to compile and test in order to download to libraries.
+When a player answers incorrectly, he/she will get another try, unless somebody else answers in the meantime:
+****************
+Which company is the largest manufacturer of network equipment?
+test
+Try again !
+****************
 
-To work offline in SBT once you have the dependencies, run the following command in the SBT console:
 
-    set offline := true
-    
-Local Variables:
-mode: markdown
-fill-column: 100
-End:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
