@@ -1,4 +1,4 @@
-*** Final Project Documentation
+# Final Project Documentation
 
 ** Intro
 For the final project I built a Trivia server for coders. This server allows users to connect via good old fashioned command line and play trivia with questions from computer science as well as submit answers for coding excercises (similar to ProjectEuler.net). I built it using akka and Actor model/pattern.
